@@ -23,7 +23,7 @@ function App() {
       window.location.replace('/login');
     }
     if (userInfo?.token && window.location.pathname === '/login') {
-      window.location.replace('/app/dashboard');
+      window.location.replace('/app');
     }
   }, [userInfo]);
 

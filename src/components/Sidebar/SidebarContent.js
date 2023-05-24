@@ -15,7 +15,7 @@ function SidebarContent() {
   const { userInfo } = userLogin;
 
   const checkRoles = (role) => {
-    return userInfo?.roles.includes(role);
+    return userInfo?.role.includes(role);
   };
 
   return (
@@ -24,7 +24,7 @@ function SidebarContent() {
         className="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200"
         href="/app"
       >
-        COMTECH
+        University System
       </a>
       <ul className="mt-6">
         {routes.map((route) => {

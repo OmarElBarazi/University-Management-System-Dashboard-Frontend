@@ -1,43 +1,41 @@
-import { lazy } from 'react';
+import { lazy } from "react";
 
 //INDEX
-import User from '../pages/users/index';
-import Assets from '../pages/assets/index';
-
-//CREATE
-import UserCreate from '../pages/users/userCreate';
+import Staff from "../pages/staff";
+import Student from "../pages/student";
+import TimeTable from "../pages/timetable";
+import Transcript from "../pages/transcript";
 
 //UPDATE
 
 // use lazy for better code splitting, a.k.a. load faster
-const Dashboard = lazy(() => import('../pages/Dashboard'));
-const Page404 = lazy(() => import('../pages/404'));
+const Page404 = lazy(() => import("../pages/404"));
 
 const routes = [
   {
-    path: '/dashboard',
-    component: Dashboard,
-    roles: ['admin', 'customer'],
+    path: "/Staff",
+    component: Staff,
+    roles: ["admin"],
   },
   {
-    path: '/users',
-    component: User,
-    roles: ['admin'],
+    path: "/Student",
+    component: Student,
+    roles: ["admin", "staff"],
   },
   {
-    path: '/users/create',
-    component: UserCreate,
-    roles: ['admin'],
+    path: "/TimeTable",
+    component: TimeTable,
+    roles: ["admin", "staff", "student"],
   },
   {
-    path: '/assets',
-    component: Assets,
-    roles: ['admin'],
+    path: "/Transcript",
+    component: Transcript,
+    roles: ["admin", "staff", "student"],
   },
   {
-    path: '/404',
+    path: "/404",
     component: Page404,
-    roles: ['admin', 'customer'],
+    roles: ["admin", "staff", "student"],
   },
 ];
 

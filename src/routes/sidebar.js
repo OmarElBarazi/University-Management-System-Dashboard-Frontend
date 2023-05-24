@@ -6,39 +6,53 @@
  * `routes/index.js`
  */
 const routes = [
+  
   {
-    path: '/app/dashboard', // the url
-    icon: 'SearchIcon', // the component being exported from icons/index.js
-    name: 'Dashboard', // name that appear in Sidebar
-    roles: ['admin', 'customer'],
-  },
-  {
+    path: '/app/Staff',
     icon: 'PeopleIcon',
-    name: 'Users',
+    name: 'Satff',
     roles: ['admin'],
-    routes: [
-      {
-        path: '/app/users',
-        name: 'Members',
-      },
-      {
-        path: '/app/users',
-        name: 'Customers',
-      },
-    ]
+    
   },
   {
-    path: '/app/assets',
-    icon: 'SearchIcon',
-    name: 'Assets',
+    path: '/app/Student',
+    icon: 'PeopleIcon',
+    name: 'Student',
     roles: ['admin'],
+    
+  },
+  {
+    path: '/app/TimeTable',
+    icon: 'TablesIcon',
+    name: 'Time Table',
+    roles: ['admin'],
+    
+  },
+  {
+    path: '/app/Transcript',
+    icon: 'ModalsIcon',
+    name: 'Transcript',
+    roles: ['admin'],
+    
   },
   {
     path: '/app/settings',
     icon: 'OutlineCogIcon',
     name: '404 Page',
-    roles: ['super_admin', 'admin', 'customer'],
+    roles: [ 'admin', 'customer'],
   },
 ];
 
 export default routes;
+
+
+// routes: [
+//   {
+//     path: '/app/users',
+//     name: 'Members',
+//   },
+//   {
+//     path: '/app/users',
+//     name: 'Customers',
+//   },
+// ]

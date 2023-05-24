@@ -24,7 +24,7 @@ function Layout() {
   }, [location]);
 
   const checkRoles = (role) => {
-    return userInfo?.roles.includes(role);
+    return userInfo?.role.includes(role);
   };
 
   return (
@@ -54,7 +54,7 @@ function Layout() {
                   return null;
                 }
               })}
-              <Redirect exact from='/app' to='/app/dashboard' />
+              <Redirect exact from='/app' to='/app' />
               <Route component={Page404} />
             </Switch>
           </Suspense>

@@ -2,12 +2,12 @@ import React from 'react'
 
 import PageTitle from "../../components/Typography/PageTitle";
 
-function Blank() {
+function TimeTable() {
   return (
     <>
-      <PageTitle>Blank</PageTitle>
+      <PageTitle>TimeTable</PageTitle>
     </>
   )
 }
 
-export default Blank
+export default TimeTable

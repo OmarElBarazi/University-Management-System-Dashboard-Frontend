@@ -2,12 +2,12 @@ import React from 'react'
 
 import PageTitle from "../../components/Typography/PageTitle";
 
-function Blank() {
+function Student() {
   return (
     <>
-      <PageTitle>Blank</PageTitle>
+      <PageTitle>Student</PageTitle>
     </>
   )
 }
 
-export default Blank
+export default Student
