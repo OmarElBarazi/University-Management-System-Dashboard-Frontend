@@ -1,5 +1,5 @@
-import { userLoginReducer } from "./userReducer";
+import { userReducer } from "./userReducer";
 
 export default {
-  userLogin: userLoginReducer,
+  userLogin: userReducer,
 };

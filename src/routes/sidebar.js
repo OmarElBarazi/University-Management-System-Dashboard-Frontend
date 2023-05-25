@@ -6,45 +6,45 @@
  * `routes/index.js`
  */
 const routes = [
-  
   {
-    path: '/app/Staff',
-    icon: 'PeopleIcon',
-    name: 'Satff',
-    roles: ['admin'],
-    
+    path: "/app/Staff",
+    icon: "PeopleIcon",
+    name: "Satff",
+    roles: ["admin"],
   },
   {
-    path: '/app/Student',
-    icon: 'PeopleIcon',
-    name: 'Student',
-    roles: ['admin'],
-    
+    path: "/app/Student",
+    icon: "PeopleIcon",
+    name: "Student",
+    roles: ["admin", "staff"],
   },
   {
-    path: '/app/TimeTable',
-    icon: 'TablesIcon',
-    name: 'Time Table',
-    roles: ['admin'],
-    
+    path: "/app/Course",
+    icon: "FormsIcon",
+    name: "Course",
+    roles: ["admin", "staff", "student"],
   },
   {
-    path: '/app/Transcript',
-    icon: 'ModalsIcon',
-    name: 'Transcript',
-    roles: ['admin'],
-    
+    path: "/app/TimeTable",
+    icon: "TablesIcon",
+    name: "Time Table",
+    roles: ["admin", "staff", "student"],
   },
   {
-    path: '/app/settings',
-    icon: 'OutlineCogIcon',
-    name: '404 Page',
-    roles: [ 'admin', 'customer'],
+    path: "/app/Transcript",
+    icon: "ModalsIcon",
+    name: "Transcript",
+    roles: ["admin", "staff", "student"],
+  },
+  {
+    path: "/app/settings",
+    icon: "OutlineCogIcon",
+    name: "404 Page",
+    roles: ["admin", "staff", "student"],
   },
 ];
 
 export default routes;
-
 
 // routes: [
 //   {

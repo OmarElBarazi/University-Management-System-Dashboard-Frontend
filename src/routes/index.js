@@ -3,6 +3,7 @@ import { lazy } from "react";
 //INDEX
 import Staff from "../pages/staff";
 import Student from "../pages/student";
+import Course from "../pages/course";
 import TimeTable from "../pages/timetable";
 import Transcript from "../pages/transcript";
 
@@ -21,6 +22,11 @@ const routes = [
     path: "/Student",
     component: Student,
     roles: ["admin", "staff"],
+  },
+  {
+    path: "/Course",
+    component: Course,
+    roles: ["admin", "staff", "student"],
   },
   {
     path: "/TimeTable",
