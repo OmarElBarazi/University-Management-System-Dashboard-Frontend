@@ -1,11 +1,30 @@
 import React from "react";
 
+import { Link } from "react-router-dom";
+
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import PageTitle from "../../components/Typography/PageTitle";
 import GeneralTable from "../GeneralTable";
 
 import { Button } from "@windmill/react-ui";
 
+import { getCourse, getCourseStaff } from "../../redux/actions/courseActions";
+
 function Course() {
+  const dispatch = useDispatch();
+
+  const user = localStorage.getItem("userInfo")
+    ? JSON.parse(localStorage.getItem("userInfo"))
+    : null;
+
+  const courseGet = useSelector((state) => state.courseGet);
+  const { courses } = courseGet;
+
+  const courseGetStaff = useSelector((state) => state.courseGetStaff);
+  const { courses_staff } = courseGetStaff;
+
   const columns = [
     { label: "Code", id: "code" },
     { label: "Description", id: "description" },
@@ -13,57 +32,48 @@ function Course() {
     { label: "Instructor", id: "instructor" },
     { label: "Day", id: "day" },
     { label: "Start ", id: "start" },
-    { label: "End", id: "End" },
+    { label: "End", id: "end" },
   ];
-  const rows = [
-    {
-      _id: "646942b75edb1d32d03f1664",
-      code: "COMP101",
-      description: "Introduction to Computer Science",
-      credits: 3,
-      instructor: "64693ccf4c20dca92132c863",
-      available: false,
-      day: "Monday",
-      time: "10:00 AM",
-      __v: 0,
-    },
-    {
-      _id: "646942d05edb1d32d03f1667",
-      code: "MATH201",
-      description: "Calculus I",
-      credits: 4,
-      instructor: "64693ccf4c20dca92132c863",
-      available: true,
-      day: "Wednesday",
-      time: "2:00 PM",
-      __v: 0,
-    },
-    {
-      _id: "646a2dfbd4b607be3cfaa3f3",
-      code: "CHEM101",
-      description: "Introduction to Chemistry",
-      credits: 3,
-      instructor: "64693ccf4c20dca92132c863",
-      available: false,
-      day: "Thursday",
-      time: "1:00 PM",
-      __v: 0,
-    },
-    {
-      _id: "646a2e0cd4b607be3cfaa3f6",
-      code: "Bio101",
-      description: "Introduction to Biology",
-      credits: 3,
-      instructor: "64693ccf4c20dca92132c863",
-      available: true,
-      day: "Thursday",
-      time: "1:00 PM",
-      __v: 0,
-    },
-  ];
+
+  //State for the rows of data
+  const [rows, setRows] = useState([]);
+
+  useEffect(() => {
+    if (user.role === "admin") {
+      dispatch(getCourse());
+    } else if (user.role === "staff") {
+      dispatch(getCourseStaff(user._id));
+    } else setRows([]);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (courses && user.role === "admin") {
+      const course = courses.map((course) => {
+        const { instructor, ...rest } = course;
+        return {
+          ...rest,
+          instructor: instructor.name + " " + instructor.surname,
+        };
+      });
+      setRows(course);
+    } else if (courses_staff && user.role === "staff") {
+      setRows(courses_staff);
+    }
+  }, [courses, courses_staff]);
   return (
     <>
-      <PageTitle>Course</PageTitle>
+      <div className="flex flex-row justify-between ">
+        <PageTitle>Course</PageTitle>
+        {user.role === "admin" && (
+          <Button
+            className="my-8 text-l font-semibold"
+            tag={Link}
+            to="/app/Course/Create"
+          >
+            Create Course
+          </Button>
+        )}
+      </div>
       <GeneralTable columns={columns} rows={rows} />
     </>
   );

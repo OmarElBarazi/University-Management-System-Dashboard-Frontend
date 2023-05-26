@@ -36,6 +36,7 @@ function Student() {
     { label: "Student Id", id: "studentId" },
     { label: "Email", id: "email" },
     { label: "Role", id: "role" },
+    { label: "Advisor", id: "advisor" },
     { label: "Start Date", id: "startDate" },
     { label: "Year", id: "year" },
     { label: "semester", id: "semester" },
@@ -61,7 +62,6 @@ function Student() {
           advisor: advisor.name + " " + advisor.surname,
         };
       });
-      console.log(students);
       setRows(students);
     } else if (student_staff && user.role === "staff") {
       setRows(student_staff);

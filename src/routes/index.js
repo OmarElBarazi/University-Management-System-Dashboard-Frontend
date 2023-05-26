@@ -10,6 +10,7 @@ import Transcript from "../pages/transcript";
 //CREATE
 import StaffForm from "../pages/staff/StaffForm";
 import StudentForm from "../pages/student/StudentForm";
+import CourseForm from "../pages/course/CourseForm";
 
 //UPDATE
 
@@ -41,6 +42,11 @@ const routes = [
     path: "/Course",
     component: Course,
     roles: ["admin", "staff", "student"],
+  },
+  {
+    path: "/Course/Create",
+    component: CourseForm,
+    roles: ["admin"],
   },
   {
     path: "/TimeTable",

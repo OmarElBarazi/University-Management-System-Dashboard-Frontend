@@ -10,8 +10,6 @@ import GeneralTable from "../GeneralTable";
 
 import { Button } from "@windmill/react-ui";
 
-import Buttons from "../Buttons";
-
 import { getStaff } from "../../redux/actions/userActions";
 
 function Staff() {
