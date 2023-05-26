@@ -1,7 +1,9 @@
 import React from "react";
 
 import PageTitle from "../../components/Typography/PageTitle";
-import UserTable from "../UserTable";
+import GeneralTable from "../GeneralTable";
+
+import { Button } from "@windmill/react-ui";
 
 function Course() {
   const columns = [
@@ -62,7 +64,7 @@ function Course() {
   return (
     <>
       <PageTitle>Course</PageTitle>
-      <UserTable columns={columns} rows={rows} />
+      <GeneralTable columns={columns} rows={rows} />
     </>
   );
 }

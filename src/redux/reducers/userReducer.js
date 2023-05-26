@@ -41,7 +41,7 @@ export const studentReducer = (state = {}, action) => {
     case STUDENT_GET:
       return { student: action.payload };
     case STUDENT_STAFF_GET:
-      return { student: action.payload };
+      return { student_staff: action.payload };
     default:
       return state;
   }

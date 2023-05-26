@@ -1,84 +1,88 @@
 import React from "react";
 
+import { Link } from "react-router-dom";
+
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import PageTitle from "../../components/Typography/PageTitle";
-import UserTable from "../UserTable";
+import GenralTable from "../GeneralTable";
+
+import { Button } from "@windmill/react-ui";
+
+import {
+  createUser,
+  getStudent,
+  getStudentByStaff,
+} from "../../redux/actions/userActions";
 
 function Student() {
+  const dispatch = useDispatch();
+
+  const user = localStorage.getItem("userInfo")
+    ? JSON.parse(localStorage.getItem("userInfo"))
+    : null;
+
+  const studentGet = useSelector((state) => state.studentGet);
+  const { student } = studentGet;
+
+  const studentGetByStaff = useSelector((state) => state.studentGetByStaff);
+  const { student_staff } = studentGetByStaff;
+
+  //Static columns for the students
   const columns = [
     { label: "Name", id: "name" },
     { label: "Surname", id: "surname" },
     { label: "Student Id", id: "studentId" },
     { label: "Email", id: "email" },
     { label: "Role", id: "role" },
-    { label: "Advisor", id: "advisor" },
     { label: "Start Date", id: "startDate" },
     { label: "Year", id: "year" },
     { label: "semester", id: "semester" },
   ];
 
-  const rows = [
-    {
-      _id: "64693b9037c41326269bebfa",
-      name: "Malek",
-      surname: "Kahteeb",
-      password: "$2b$10$XbsxcUusKVmH3LGQatNGSeqVYrktx.VGwL08qBN22Kt3QQwohVxWq",
-      email: "malek@example.com",
-      role: "student",
-      advisor: "64693440c6045aa282a4362d",
-      startDate: "01/01/2023",
-      year: 2023,
-      semester: "spring",
-      studentId: 23000001,
-      __v: 0,
-    },
-    {
-      _id: "64693bb037c41326269bec02",
-      name: "Nabil",
-      surname: "Kahteeb",
-      password: "$2b$10$JufJderMefNDvY.DLAwfQ.oo4TZgDnkJ5gH/YbI1ec0qKtu0e97wO",
-      email: "nabil@example.com",
-      role: "student",
-      advisor: "64693440c6045aa282a4362d",
-      startDate: "01/01/2023",
-      year: 2023,
-      semester: "spring",
-      studentId: 23000002,
-      __v: 0,
-    },
-    {
-      _id: "64693bc637c41326269bec0a",
-      name: "Omar",
-      surname: "Kahteeb",
-      password: "$2b$10$Tg.pj7Xg5LYQXANED4AqvOj5P0HKgGmNhqpoLoIb/Oz9PsKhfy2Pa",
-      email: "omar@example.com",
-      role: "student",
-      advisor: "64693440c6045aa282a4362d",
-      startDate: "01/01/2023",
-      year: 2023,
-      semester: "spring",
-      studentId: 23000003,
-      __v: 0,
-    },
-    {
-      _id: "646d2244bb8b1f5a19b0f8b9",
-      name: "Samir",
-      surname: "Kahteeb",
-      password: "$2b$10$dwLnwMExdw7gXEQb/OE1QeBqur17NwDZGG3FF0E9GA/qPkVXjHA5a",
-      email: "samir@example.com",
-      role: "student",
-      advisor: "64693440c6045aa282a4362d",
-      startDate: "01/01/2023",
-      year: 2023,
-      semester: "spring",
-      studentId: 23000004,
-      __v: 0,
-    },
-  ];
+  //State for the rows of data
+  const [rows, setRows] = useState([]);
+
+  useEffect(() => {
+    if (user.role === "admin") {
+      dispatch(getStudent());
+    } else if (user.role === "staff") {
+      dispatch(getStudentByStaff(user._id));
+    } else setRows([]);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (student && user.role === "admin") {
+      const students = student.map((student) => {
+        const { advisor, ...rest } = student;
+        return {
+          ...rest,
+          advisor: advisor.name + " " + advisor.surname,
+        };
+      });
+      console.log(students);
+      setRows(students);
+    } else if (student_staff && user.role === "staff") {
+      setRows(student_staff);
+    }
+  }, [student, student_staff]);
 
   return (
     <>
-      <PageTitle>Student</PageTitle>
-      <UserTable columns={columns} rows={rows} />
+      <div className="flex flex-row justify-between ">
+        <PageTitle>Student</PageTitle>
+        {user.role === "admin" && (
+          <Button
+            className="my-8 text-l font-semibold"
+            tag={Link}
+            to="/app/Student/Create"
+          >
+            Create Student
+          </Button>
+        )}
+      </div>
+      <GenralTable columns={columns} rows={rows} />
     </>
   );
 }

@@ -15,7 +15,7 @@ import { EditIcon, TrashIcon } from "../icons";
 import PageTitle from "../components/Typography/PageTitle";
 import SectionTitle from "../components/Typography/SectionTitle";
 
-const UserTable = ({ columns, rows }) => {
+const GeneralTable = ({ columns, rows }) => {
   // setup pages control for every table
   const [pageTable, setPageTable] = useState(1);
 
@@ -78,4 +78,4 @@ const UserTable = ({ columns, rows }) => {
   );
 };
 
-export default UserTable;
+export default GeneralTable;

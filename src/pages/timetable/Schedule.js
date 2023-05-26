@@ -78,7 +78,7 @@ const Schedule = ({ data }) => {
               backgroundColor: "#8A2BE2",
               padding: "4px",
               marginBottom: "2px",
-              borderRadius:"10px"
+              borderRadius: "10px",
             }}
           >
             {course.code}

@@ -1,22 +1,23 @@
-import axios from 'axios';
+import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: process.env.REACT_APP_BACKEND_URL,
+  // baseURL: process.env.REACT_APP_BACKEND_URL,
+  baseURL: "http://localhost:5000",
   timeout: 5000,
   headers: {
-    'Content-Type': 'application/json',
-    accept: 'application/json',
+    "Content-Type": "application/json",
+    accept: "application/json",
   },
 });
 
 axiosInstance.interceptors.request.use(
   function (config) {
-    if (window.location.pathname !== '/login') {
-      const { token } = JSON.parse(localStorage.getItem('userInfo'));
+    if (window.location.pathname !== "/login") {
+      const { token } = JSON.parse(localStorage.getItem("userInfo"));
       if (token) {
-        config.headers['Authorization'] = 'Bearer ' + token;
+        config.headers["Authorization"] = "Bearer " + token;
       } else {
-        window.location.replace('/login');
+        window.location.replace("/login");
       }
     }
     return config;
@@ -32,10 +33,10 @@ axiosInstance.interceptors.response.use(
   },
   async function (error) {
     if (
-      window.location.pathname !== '/login' &&
+      window.location.pathname !== "/login" &&
       error?.response?.status === 401
     ) {
-      window.location.replace('/login');
+      window.location.replace("/login");
     }
 
     return error;

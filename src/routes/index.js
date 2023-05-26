@@ -7,6 +7,10 @@ import Course from "../pages/course";
 import TimeTable from "../pages/timetable";
 import Transcript from "../pages/transcript";
 
+//CREATE
+import StaffForm from "../pages/staff/StaffForm";
+import StudentForm from "../pages/student/StudentForm";
+
 //UPDATE
 
 // use lazy for better code splitting, a.k.a. load faster
@@ -19,9 +23,19 @@ const routes = [
     roles: ["admin"],
   },
   {
+    path: "/Staff/Create",
+    component: StaffForm,
+    roles: ["admin"],
+  },
+  {
     path: "/Student",
     component: Student,
     roles: ["admin", "staff"],
+  },
+  {
+    path: "/Student/Create",
+    component: StudentForm,
+    roles: ["admin"],
   },
   {
     path: "/Course",

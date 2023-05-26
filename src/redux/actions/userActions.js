@@ -45,7 +45,7 @@ export const getStaff = () => async (dispatch) => {
     if (res.data) {
       dispatch({
         type: STAFF_GET,
-        payload: res.data,
+        payload: res.data.staff,
       });
     }
   } catch (error) {}
@@ -62,7 +62,7 @@ export const getStudent = () => async (dispatch) => {
     if (res.data) {
       dispatch({
         type: STUDENT_GET,
-        payload: res.data,
+        payload: res.data.students,
       });
     }
   } catch (error) {}
@@ -101,5 +101,3 @@ export const createUser = (data) => async (dispatch) => {
     }
   } catch (error) {}
 };
-
-
