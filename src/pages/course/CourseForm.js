@@ -191,7 +191,7 @@ const CourseForm = () => {
           </Select>
         </Label>
         <Button block className="mt-4" type="submit" onClick={handleSubmit}>
-          Submit
+          Create Course
         </Button>
       </div>
     </>

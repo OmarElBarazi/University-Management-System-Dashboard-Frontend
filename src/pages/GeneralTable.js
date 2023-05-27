@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import {
   Table,
   TableHeader,
@@ -10,12 +11,16 @@ import {
   Button,
   Pagination,
 } from "@windmill/react-ui";
-import { EditIcon, TrashIcon } from "../icons";
-
+import { EditIcon, TrashIcon, TablesIcon, ModalsIcon } from "../icons";
 import PageTitle from "../components/Typography/PageTitle";
-import SectionTitle from "../components/Typography/SectionTitle";
 
 const GeneralTable = ({ columns, rows }) => {
+  const location = useLocation();
+
+  const user = localStorage.getItem("userInfo")
+    ? JSON.parse(localStorage.getItem("userInfo"))
+    : null;
+
   // setup pages control for every table
   const [pageTable, setPageTable] = useState(1);
 
@@ -33,6 +38,26 @@ const GeneralTable = ({ columns, rows }) => {
   const endIdx = pageTable * resultsPerPage;
   const currentRows = rows.slice(startIdx, endIdx);
 
+  // Determine if the user role is admin, staff, or student
+  const isAdmin = user && user.role === "admin";
+  const isStaff = user && user.role === "staff";
+  const isStudent = user && user.role === "student";
+
+  // Determine if the location is "/app/Staff"
+  const isStaffPage = location.pathname === "/app/Staff";
+
+  // Determine if the location is "/app/Student"
+  const isStudentPage = location.pathname === "/app/Student";
+
+  // Determine if the location is "/app/Student"
+  const isCoursePage = location.pathname === "/app/Course";
+
+  // Determine if the location is "/app/TimeTable"
+  const isTimeTablePage = location.pathname === "/app/TimeTable";
+
+  // Determine if the location is "/app/Transcript"
+  const isTranscriptPage = location.pathname === "/app/Transcript";
+
   return (
     <>
       <TableContainer className="mb-8">
@@ -42,7 +67,14 @@ const GeneralTable = ({ columns, rows }) => {
               {columns.map((column) => (
                 <TableCell key={column.id}>{column.label}</TableCell>
               ))}
-              <TableCell>Actions</TableCell>
+              {isStaffPage && isAdmin && <TableCell>Actions</TableCell>}
+              {isStudentPage && (isAdmin || isStaff) && (
+                <TableCell>Actions</TableCell>
+              )}
+              {isCoursePage && isAdmin && <TableCell>Actions</TableCell>}
+              {isTimeTablePage && (isAdmin || isStaff || isStudent) && (
+                <TableCell>Actions</TableCell>
+              )}
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -51,16 +83,69 @@ const GeneralTable = ({ columns, rows }) => {
                 {columns.map((column) => (
                   <TableCell key={column.id}>{user[column.id]}</TableCell>
                 ))}
-                <TableCell>
-                  <div className="flex items-center space-x-4">
-                    <Button layout="link" size="icon" aria-label="Edit">
-                      <EditIcon className="w-5 h-5" aria-hidden="true" />
-                    </Button>
-                    <Button layout="link" size="icon" aria-label="Delete">
-                      <TrashIcon className="w-5 h-5" aria-hidden="true" />
-                    </Button>
-                  </div>
-                </TableCell>
+                {isStaffPage && isAdmin && (
+                  <TableCell>
+                    <div className="flex items-center space-x-4">
+                      <Button layout="link" size="icon" aria-label="Edit">
+                        <EditIcon className="w-5 h-5" aria-hidden="true" />
+                      </Button>
+                      <Button layout="link" size="icon" aria-label="Delete">
+                        <TrashIcon className="w-5 h-5" aria-hidden="true" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                )}
+                {isStudentPage && isAdmin && (
+                  <TableCell>
+                    <div className="flex items-center space-x-4">
+                      <Button layout="link" size="icon" aria-label="Edit">
+                        <EditIcon className="w-5 h-5" aria-hidden="true" />
+                      </Button>
+                      <Button layout="link" size="icon" aria-label="Delete">
+                        <TrashIcon className="w-5 h-5" aria-hidden="true" />
+                      </Button>
+                      <Button layout="link" size="icon" aria-label="TimeTable">
+                        <TablesIcon className="w-5 h-5" aria-hidden="true" />
+                      </Button>
+                      <Button layout="link" size="icon" aria-label="Transcript">
+                        <ModalsIcon className="w-5 h-5" aria-hidden="true" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                )}
+                {isStudentPage && isStaff && (
+                  <TableCell>
+                    <div className="flex items-center space-x-4">
+                      <Button layout="link" size="icon" aria-label="TimeTable">
+                        <TablesIcon className="w-5 h-5" aria-hidden="true" />
+                      </Button>
+                      <Button layout="link" size="icon" aria-label="Transcript">
+                        <ModalsIcon className="w-5 h-5" aria-hidden="true" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                )}
+                {isCoursePage && isAdmin && (
+                  <TableCell>
+                    <div className="flex items-center space-x-4">
+                      <Button layout="link" size="icon" aria-label="Edit">
+                        <EditIcon className="w-5 h-5" aria-hidden="true" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                )}
+                {isTimeTablePage && (isAdmin || isStaff || isStudent) && (
+                  <TableCell>
+                    <div className="flex items-center space-x-4">
+                      <Button layout="link" size="icon" aria-label="Edit">
+                        <EditIcon className="w-5 h-5" aria-hidden="true" />
+                      </Button>
+                      <Button layout="link" size="icon" aria-label="Delete">
+                        <TrashIcon className="w-5 h-5" aria-hidden="true" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                )}
               </TableRow>
             ))}
           </TableBody>

@@ -1,54 +1,34 @@
 import React from "react";
 
+import { useEffect, useState } from "react";
+
+import { useDispatch, useSelector } from "react-redux";
+
 import PageTitle from "../../components/Typography/PageTitle";
+
 import Schedule from "./Schedule";
 import GeneralTable from "../GeneralTable";
 
 function TimeTable() {
+  const dispatch = useDispatch();
+
+  const user = localStorage.getItem("userInfo")
+  ? JSON.parse(localStorage.getItem("userInfo"))
+  : null;
+
+  // const studentGet = useSelector((state) => state.studentGet);
+  // const { student } = studentGet;
+
+  // const studentGetByStaff = useSelector((state) => state.studentGetByStaff);
+  // const { student_staff } = studentGetByStaff;
+
+
   const columns = [
     { label: "Code", id: "code" },
-    // { label: "Description", id: "description" },
     { label: "Credits", id: "credits" },
-    // { label: "Instructor", id: "instructor" },
-    // { label: "Day", id: "day" },
-    // { label: "Start ", id: "start" },
-    // { label: "End", id: "End" },
+    { label: "Grade", id: "grade" },
   ];
-  const rows = [
-    {
-      _id: "646942b75edb1d32d03f1664",
-      code: "COMP101",
-      description: "Introduction to Computer Science",
-      credits: 3,
-      instructor: "64693ccf4c20dca92132c863",
-      available: false,
-      day: "Monday",
-      time: "10:00 AM",
-      __v: 0,
-    },
-    {
-      _id: "646942d05edb1d32d03f1667",
-      code: "MATH201",
-      description: "Calculus I",
-      credits: 4,
-      instructor: "64693ccf4c20dca92132c863",
-      available: true,
-      day: "Wednesday",
-      time: "2:00 PM",
-      __v: 0,
-    },
-    {
-      _id: "646a2dfbd4b607be3cfaa3f3",
-      code: "CHEM101",
-      description: "Introduction to Chemistry",
-      credits: 3,
-      instructor: "64693ccf4c20dca92132c863",
-      available: false,
-      day: "Thursday",
-      time: "1:00 PM",
-      __v: 0,
-    }
-  ];
+
   return (
     <>
       <PageTitle>TimeTable</PageTitle>
@@ -57,7 +37,7 @@ function TimeTable() {
           <Schedule />
         </div>
         <div className="w-1/4">
-          <GeneralTable columns={columns} rows={rows} />
+          <GeneralTable columns={columns} rows={[]} />
         </div>
       </div>
     </>
