@@ -9,39 +9,6 @@ import {
 } from "@windmill/react-ui";
 
 const Schedule = ({ data }) => {
-  data = [
-    {
-      code: "CMPE101",
-      description: "Introduction to Computer",
-      credits: 4,
-      instructor: "Hakan",
-      day: "Monday",
-      start: "11:00",
-      end: "13:00",
-      available: true,
-    },
-    {
-      code: "CMPE102",
-      description: "Introduction to Computer",
-      credits: 4,
-      instructor: "Hakan",
-      day: "Tuesday",
-      start: "13:00",
-      end: "15:00",
-      available: true,
-    },
-    {
-      code: "CMPE103",
-      description: "Introduction to Computer",
-      credits: 4,
-      instructor: "Hakan",
-      day: "Wednesday",
-      start: "11:00",
-      end: "12:00",
-      available: true,
-    },
-  ];
-
   // Create an array of unique days
   const days = [
     "Monday",

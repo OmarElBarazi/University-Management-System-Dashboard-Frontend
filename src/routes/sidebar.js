@@ -22,7 +22,7 @@ const routes = [
     path: "/app/Course",
     icon: "FormsIcon",
     name: "Course",
-    roles: ["admin", "staff", "student"],
+    roles: ["admin", "staff"],
   },
   {
     path: "/app/TimeTable",

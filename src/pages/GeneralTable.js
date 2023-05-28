@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+
+import { useLocation, useHistory } from "react-router-dom";
+
 import {
   Table,
   TableHeader,
@@ -11,11 +13,22 @@ import {
   Button,
   Pagination,
 } from "@windmill/react-ui";
+
 import { EditIcon, TrashIcon, TablesIcon, ModalsIcon } from "../icons";
+
 import PageTitle from "../components/Typography/PageTitle";
 
-const GeneralTable = ({ columns, rows }) => {
+const GeneralTable = ({
+  columns,
+  rows,
+  timeTable1,
+  timeTable2,
+  handleAddCourseInTimeTable,
+  handleRemoveCourseFromTimeTable,
+}) => {
   const location = useLocation();
+
+  const history = useHistory();
 
   const user = localStorage.getItem("userInfo")
     ? JSON.parse(localStorage.getItem("userInfo"))
@@ -58,6 +71,22 @@ const GeneralTable = ({ columns, rows }) => {
   // Determine if the location is "/app/Transcript"
   const isTranscriptPage = location.pathname === "/app/Transcript";
 
+  //TimeTable Page have two Tables
+  const isTimeTable1 = timeTable1;
+
+  const isTimeTable2 = timeTable2;
+
+  //Handle actions of Buttons according to location and user
+  const handleStudentPageTimeTableButton = (student) => {
+    const state = { student: student };
+    history.push("/app/TimeTable", { state: state });
+  };
+
+  const handleStudentPageTranscriptButton = (student) => {
+    const state = { student: student };
+    history.push("/app/TimeTable", { state: state });
+  };
+
   return (
     <>
       <TableContainer className="mb-8">
@@ -72,24 +101,36 @@ const GeneralTable = ({ columns, rows }) => {
                 <TableCell>Actions</TableCell>
               )}
               {isCoursePage && isAdmin && <TableCell>Actions</TableCell>}
-              {isTimeTablePage && (isAdmin || isStaff || isStudent) && (
-                <TableCell>Actions</TableCell>
-              )}
+              {isTimeTablePage &&
+                (isTimeTable1 || isTimeTable2) &&
+                (isAdmin || isStaff || isStudent) && (
+                  <TableCell>Actions</TableCell>
+                )}
             </TableRow>
           </TableHeader>
           <TableBody>
-            {currentRows.map((user) => (
-              <TableRow key={user._id}>
+            {currentRows.map((entity) => (
+              <TableRow key={entity._id}>
                 {columns.map((column) => (
-                  <TableCell key={column.id}>{user[column.id]}</TableCell>
+                  <TableCell key={column.id}>{entity[column.id]}</TableCell>
                 ))}
                 {isStaffPage && isAdmin && (
                   <TableCell>
                     <div className="flex items-center space-x-4">
-                      <Button layout="link" size="icon" aria-label="Edit">
+                      <Button
+                        layout="link"
+                        size="icon"
+                        aria-label="Edit"
+                        title="Edit Staff Information"
+                      >
                         <EditIcon className="w-5 h-5" aria-hidden="true" />
                       </Button>
-                      <Button layout="link" size="icon" aria-label="Delete">
+                      <Button
+                        layout="link"
+                        size="icon"
+                        aria-label="Delete"
+                        title="Delete Staff Member"
+                      >
                         <TrashIcon className="w-5 h-5" aria-hidden="true" />
                       </Button>
                     </div>
@@ -98,16 +139,39 @@ const GeneralTable = ({ columns, rows }) => {
                 {isStudentPage && isAdmin && (
                   <TableCell>
                     <div className="flex items-center space-x-4">
-                      <Button layout="link" size="icon" aria-label="Edit">
+                      <Button
+                        layout="link"
+                        size="icon"
+                        aria-label="Edit"
+                        title="Edit Student Information"
+                      >
                         <EditIcon className="w-5 h-5" aria-hidden="true" />
                       </Button>
-                      <Button layout="link" size="icon" aria-label="Delete">
+                      <Button
+                        layout="link"
+                        size="icon"
+                        aria-label="Delete"
+                        title="Delete Student Information"
+                      >
                         <TrashIcon className="w-5 h-5" aria-hidden="true" />
                       </Button>
-                      <Button layout="link" size="icon" aria-label="TimeTable">
+                      <Button
+                        layout="link"
+                        size="icon"
+                        aria-label="TimeTable"
+                        title="Display Time-Table"
+                        onClick={() => {
+                          handleStudentPageTimeTableButton(entity);
+                        }}
+                      >
                         <TablesIcon className="w-5 h-5" aria-hidden="true" />
                       </Button>
-                      <Button layout="link" size="icon" aria-label="Transcript">
+                      <Button
+                        layout="link"
+                        size="icon"
+                        aria-label="Transcript"
+                        title="Display Transcript"
+                      >
                         <ModalsIcon className="w-5 h-5" aria-hidden="true" />
                       </Button>
                     </div>
@@ -116,10 +180,20 @@ const GeneralTable = ({ columns, rows }) => {
                 {isStudentPage && isStaff && (
                   <TableCell>
                     <div className="flex items-center space-x-4">
-                      <Button layout="link" size="icon" aria-label="TimeTable">
+                      <Button
+                        layout="link"
+                        size="icon"
+                        aria-label="TimeTable"
+                        title="Display Time-Table"
+                      >
                         <TablesIcon className="w-5 h-5" aria-hidden="true" />
                       </Button>
-                      <Button layout="link" size="icon" aria-label="Transcript">
+                      <Button
+                        layout="link"
+                        size="icon"
+                        aria-label="Transcript"
+                        title="Display Transcript"
+                      >
                         <ModalsIcon className="w-5 h-5" aria-hidden="true" />
                       </Button>
                     </div>
@@ -128,24 +202,54 @@ const GeneralTable = ({ columns, rows }) => {
                 {isCoursePage && isAdmin && (
                   <TableCell>
                     <div className="flex items-center space-x-4">
-                      <Button layout="link" size="icon" aria-label="Edit">
+                      <Button
+                        layout="link"
+                        size="icon"
+                        aria-label="Edit"
+                        title="EDit Course Information"
+                      >
                         <EditIcon className="w-5 h-5" aria-hidden="true" />
                       </Button>
                     </div>
                   </TableCell>
                 )}
-                {isTimeTablePage && (isAdmin || isStaff || isStudent) && (
-                  <TableCell>
-                    <div className="flex items-center space-x-4">
-                      <Button layout="link" size="icon" aria-label="Edit">
-                        <EditIcon className="w-5 h-5" aria-hidden="true" />
-                      </Button>
-                      <Button layout="link" size="icon" aria-label="Delete">
-                        <TrashIcon className="w-5 h-5" aria-hidden="true" />
-                      </Button>
-                    </div>
-                  </TableCell>
-                )}
+                {isTimeTablePage &&
+                  isTimeTable1 &&
+                  (isAdmin || isStaff || isStudent) && (
+                    <TableCell>
+                      <div className="flex items-center space-x-4">
+                        <Button
+                          size="small"
+                          aria-label="Add"
+                          title="Add Course"
+                          onClick={() => {
+                            handleAddCourseInTimeTable(entity._id);
+                          }}
+                        >
+                          Add
+                        </Button>
+                      </div>
+                    </TableCell>
+                  )}
+                {isTimeTablePage &&
+                  isTimeTable2 &&
+                  (isAdmin || isStaff || isStudent) && (
+                    <TableCell>
+                      <div className="flex items-center space-x-4">
+                        <Button
+                          layout="link"
+                          size="icon"
+                          aria-label="Delete"
+                          tilte="Remove Course"
+                          onClick={() => {
+                            handleRemoveCourseFromTimeTable(entity._id);
+                          }}
+                        >
+                          <TrashIcon className="w-5 h-5" aria-hidden="true" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  )}
               </TableRow>
             ))}
           </TableBody>

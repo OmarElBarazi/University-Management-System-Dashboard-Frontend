@@ -23,7 +23,7 @@ export const getTimeTable = (id) => async (dispatch) => {
 };
 
 export const updateTimeTableCourses =
-  (id, coursesToAdd, coursesToremove) => async (dispatch) => {
+  (id, coursesToAdd, coursesToRemove) => async (dispatch) => {
     try {
       dispatch({
         type: TIME_TABLE_UPDATE_COURSES,
@@ -31,7 +31,7 @@ export const updateTimeTableCourses =
 
       const res = await axios.patch(`/timetable/schedule/${id}`, {
         coursesToAdd,
-        coursesToremove,
+        coursesToRemove,
       });
 
       if (res.data) {

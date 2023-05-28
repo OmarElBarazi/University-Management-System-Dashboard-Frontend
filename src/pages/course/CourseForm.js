@@ -23,19 +23,25 @@ const CourseForm = () => {
   const staffGet = useSelector((state) => state.staffGet);
   const { staff } = staffGet;
 
-  useEffect(() => {
-    dispatch(getStaff());
-  }, [dispatch]);
-
   const [formData, setFormData] = useState({
     code: "",
     description: "",
     instructor: "",
-    day: "",
+    day: "Monday",
     start: "08:00",
     end: "09:00",
     credits: 0,
   });
+
+  useEffect(() => {
+    dispatch(getStaff());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (staff) {
+      formData.instructor = staff[0]._id;
+    }
+  }, [staff]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

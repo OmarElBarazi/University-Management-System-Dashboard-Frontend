@@ -41,7 +41,7 @@ const routes = [
   {
     path: "/Course",
     component: Course,
-    roles: ["admin", "staff", "student"],
+    roles: ["admin", "staff"],
   },
   {
     path: "/Course/Create",
