@@ -59,7 +59,8 @@ const Schedule = ({ data }) => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableCell></TableCell> {/* Empty cell in the top-left corner */}
+            <TableCell></TableCell>
+            {/* Empty cell in the top-left corner */}
             {days.map((day) => (
               <TableCell
                 style={{

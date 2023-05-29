@@ -21,10 +21,6 @@ function StudentForm() {
   const staffGet = useSelector((state) => state.staffGet);
   const { staff } = staffGet;
 
-  useEffect(() => {
-    dispatch(getStaff());
-  }, [dispatch]);
-
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
@@ -36,6 +32,16 @@ function StudentForm() {
   const [year, setYear] = useState("");
   const [startDate, setStartDate] = useState("");
   const [semester, setSemester] = useState("fall");
+
+  useEffect(() => {
+    dispatch(getStaff());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (staff) {
+      setAdvisor(staff[0]._id);
+    }
+  }, [staff]);
 
   const handleNameChange = (event) => {
     setName(event.target.value);

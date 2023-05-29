@@ -68,9 +68,6 @@ const GeneralTable = ({
   // Determine if the location is "/app/TimeTable"
   const isTimeTablePage = location.pathname === "/app/TimeTable";
 
-  // Determine if the location is "/app/Transcript"
-  const isTranscriptPage = location.pathname === "/app/Transcript";
-
   //TimeTable Page have two Tables
   const isTimeTable1 = timeTable1;
 
@@ -84,7 +81,7 @@ const GeneralTable = ({
 
   const handleStudentPageTranscriptButton = (student) => {
     const state = { student: student };
-    history.push("/app/TimeTable", { state: state });
+    history.push("/app/Transcript", { state: state });
   };
 
   return (
@@ -171,6 +168,9 @@ const GeneralTable = ({
                         size="icon"
                         aria-label="Transcript"
                         title="Display Transcript"
+                        onClick={() => {
+                          handleStudentPageTranscriptButton(entity);
+                        }}
                       >
                         <ModalsIcon className="w-5 h-5" aria-hidden="true" />
                       </Button>

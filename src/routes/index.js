@@ -11,6 +11,7 @@ import Transcript from "../pages/transcript";
 import StaffForm from "../pages/staff/StaffForm";
 import StudentForm from "../pages/student/StudentForm";
 import CourseForm from "../pages/course/CourseForm";
+import TranscriptForm from "../pages/transcript/TranscriptForm";
 
 //UPDATE
 
@@ -57,6 +58,16 @@ const routes = [
     path: "/Transcript",
     component: Transcript,
     roles: ["admin", "staff", "student"],
+  },
+  {
+    path: "/Transcript",
+    component: Transcript,
+    roles: ["admin", "staff", "student"],
+  },
+  {
+    path: "/Transcript/Create",
+    component: TranscriptForm,
+    roles: ["admin", "staff"],
   },
   {
     path: "/404",
