@@ -1,10 +1,15 @@
-import { userReducer, staffReducer, studentReducer } from "./userReducer";
+import {
+  userRegisterationReducer,
+  userReducer,
+  staffReducer,
+  studentReducer,
+} from "./userReducer";
 import { courseReducer } from "./courseReducer";
 import { timeTableReducer } from "./timeTableReducer";
 import { transcriptReducer } from "./transcriptReducer";
 
 export default {
-  userLogin: userReducer,
+  userLogin: userRegisterationReducer,
   userCreate: userReducer,
   userUpdate: userReducer,
   userDelete: userReducer,

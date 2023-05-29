@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ImageLight from "../assets/img/login-office.jpeg";
 import ImageDark from "../assets/img/login-office-dark.jpeg";
+import EmuLightImage from "../assets/img/Emu-logo-light.jpg";
 import { Label, Input } from "@windmill/react-ui";
 import { login } from "../redux/actions/userActions";
 
@@ -33,13 +34,13 @@ function Login() {
             <img
               aria-hidden="true"
               className="object-cover w-full h-full dark:hidden"
-              src={ImageLight}
+              src={EmuLightImage}
               alt="Office"
             />
             <img
               aria-hidden="true"
               className="hidden object-cover w-full h-full dark:block"
-              src={ImageDark}
+              src={EmuLightImage}
               alt="Office"
             />
           </div>

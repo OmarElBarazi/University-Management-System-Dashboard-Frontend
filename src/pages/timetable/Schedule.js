@@ -79,7 +79,10 @@ const Schedule = ({ data }) => {
               <TableCell>{startTime}</TableCell>
               {data && // Check if data is available
                 days.map((day) => (
-                  <TableCell key={`${day}-${startTime}`}>
+                  <TableCell
+                    key={`${day}-${startTime}`}
+                    style={{ color: "white" }}
+                  >
                     {renderCourseCode(day, startTime)}
                   </TableCell>
                 ))}

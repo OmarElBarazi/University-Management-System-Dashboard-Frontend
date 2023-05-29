@@ -87,7 +87,8 @@ function StudentForm() {
     setSemester(event.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     const startDateObj = new Date(startDate); // Convert startDate string to Date object
 
     const data = {
@@ -105,6 +106,7 @@ function StudentForm() {
       semester: semester,
     };
 
+    // console.log(data)
     dispatch(createUser(data));
 
     // Redirect to the desired route
@@ -222,7 +224,7 @@ function StudentForm() {
             <option value="spring">Spring</option>
           </Select>
         </Label>
-        <Button block className="mt-4" onClick={handleSubmit}>
+        <Button block className="mt-4" type="submit" onClick={handleSubmit}>
           Create account
         </Button>
       </div>

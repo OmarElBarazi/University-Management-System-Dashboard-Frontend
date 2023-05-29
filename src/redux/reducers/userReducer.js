@@ -9,12 +9,19 @@ import {
   STUDENT_STAFF_GET,
 } from "../constants/userConstants";
 
-export const userReducer = (state = {}, action) => {
+export const userRegisterationReducer = (state = {}, action) => {
   switch (action.type) {
     case USER_LOGIN:
       return { userInfo: action.payload };
     case USER_LOGOUT:
       return {};
+
+    default:
+      return state;
+  }
+};
+export const userReducer = (state = {}, action) => {
+  switch (action.type) {
     case USER_CREATE:
       return { user: action.payload };
     case USER_UPDATE:
