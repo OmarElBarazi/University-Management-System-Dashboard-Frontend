@@ -18,6 +18,9 @@ function Staff() {
   const staffGet = useSelector((state) => state.staffGet);
   const { staff } = staffGet;
 
+  const userCreate = useSelector((state) => state.userCreate);
+  const { user } = userCreate;
+
   //Static columns for the staff
   const columns = [
     { label: "Name", id: "name" },
@@ -31,7 +34,7 @@ function Staff() {
 
   useEffect(() => {
     dispatch(getStaff());
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   useEffect(() => {
     if (staff) {
@@ -41,7 +44,7 @@ function Staff() {
   return (
     <>
       <div className="flex flex-row justify-between ">
-        <PageTitle>Staff</PageTitle>
+        <PageTitle>Staff Page</PageTitle>
         <Button
           className="my-8 text-l font-semibold "
           tag={Link}
