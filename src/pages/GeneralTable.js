@@ -185,6 +185,9 @@ const GeneralTable = ({
                         size="icon"
                         aria-label="TimeTable"
                         title="Display Time-Table"
+                        onClick={() => {
+                          handleStudentPageTimeTableButton(entity);
+                        }}
                       >
                         <TablesIcon className="w-5 h-5" aria-hidden="true" />
                       </Button>
@@ -193,6 +196,9 @@ const GeneralTable = ({
                         size="icon"
                         aria-label="Transcript"
                         title="Display Transcript"
+                        onClick={() => {
+                          handleStudentPageTranscriptButton(entity);
+                        }}
                       >
                         <ModalsIcon className="w-5 h-5" aria-hidden="true" />
                       </Button>

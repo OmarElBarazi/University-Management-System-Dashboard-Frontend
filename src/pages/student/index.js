@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import PageTitle from "../../components/Typography/PageTitle";
-import GenralTable from "../GeneralTable";
+import GeneralTable from "../GeneralTable";
 
 import { Button } from "@windmill/react-ui";
 
@@ -23,11 +23,19 @@ function Student() {
     ? JSON.parse(localStorage.getItem("userInfo"))
     : null;
 
+  // Determine if the user role is admin, staff, or student
+  const isAdmin = user && user.role === "admin";
+  const isStaff = user && user.role === "staff";
+  const isStudent = user && user.role === "student";
+
   const studentGet = useSelector((state) => state.studentGet);
   const { student } = studentGet;
 
   const studentGetByStaff = useSelector((state) => state.studentGetByStaff);
   const { student_staff } = studentGetByStaff;
+
+  const userCreate = useSelector((state) => state.userCreate);
+  const { user_create } = userCreate;
 
   //Static columns for the students
   const columns = [
@@ -51,7 +59,7 @@ function Student() {
     } else if (user.role === "staff") {
       dispatch(getStudentByStaff(user._id));
     } else setRows([]);
-  }, [dispatch]);
+  }, [dispatch, user_create]);
 
   useEffect(() => {
     if (student && user.role === "admin") {
@@ -64,15 +72,32 @@ function Student() {
       });
       setRows(students);
     } else if (student_staff && user.role === "staff") {
-      setRows(student_staff);
+      const students = student_staff.map((student) => {
+        const { advisor, ...rest } = student;
+        return {
+          ...rest,
+          advisor: advisor.name + " " + advisor.surname,
+        };
+      });
+      setRows(students);
     }
   }, [student, student_staff]);
 
   return (
     <>
       <div className="flex flex-row justify-between ">
-        <PageTitle>Student</PageTitle>
-        {user.role === "admin" && (
+        {isAdmin && <PageTitle>Student Page</PageTitle>}
+        {isStaff ? (
+          user ? (
+            <PageTitle>
+              Student for Staff Member {user.name.toUpperCase()}{" "}
+              {user.surname.toUpperCase()}
+            </PageTitle>
+          ) : (
+            <PageTitle>User data still didn't render.</PageTitle>
+          )
+        ) : null}
+        {isAdmin && (
           <Button
             className="my-8 text-l font-semibold"
             tag={Link}
@@ -82,7 +107,7 @@ function Student() {
           </Button>
         )}
       </div>
-      <GenralTable columns={columns} rows={rows} />
+      <GeneralTable columns={columns} rows={rows} />
     </>
   );
 }

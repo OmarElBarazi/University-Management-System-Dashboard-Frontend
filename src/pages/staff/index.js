@@ -19,7 +19,7 @@ function Staff() {
   const { staff } = staffGet;
 
   const userCreate = useSelector((state) => state.userCreate);
-  const { user } = userCreate;
+  const { user_create } = userCreate;
 
   //Static columns for the staff
   const columns = [
@@ -34,7 +34,7 @@ function Staff() {
 
   useEffect(() => {
     dispatch(getStaff());
-  }, [dispatch, user]);
+  }, [dispatch, user_create]);
 
   useEffect(() => {
     if (staff) {
