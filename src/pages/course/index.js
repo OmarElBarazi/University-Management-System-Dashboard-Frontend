@@ -10,7 +10,11 @@ import GeneralTable from "../GeneralTable";
 
 import { Button } from "@windmill/react-ui";
 
-import { getCourse, getCourseStaff } from "../../redux/actions/courseActions";
+import {
+  getCourse,
+  getCourseStaff,
+  createCourse,
+} from "../../redux/actions/courseActions";
 
 function Course() {
   const dispatch = useDispatch();
@@ -19,11 +23,19 @@ function Course() {
     ? JSON.parse(localStorage.getItem("userInfo"))
     : null;
 
+  // Determine if the user role is admin, staff, or student
+  const isAdmin = user && user.role === "admin";
+  const isStaff = user && user.role === "staff";
+  const isStudent = user && user.role === "student";
+
   const courseGet = useSelector((state) => state.courseGet);
   const { courses } = courseGet;
 
   const courseGetStaff = useSelector((state) => state.courseGetStaff);
   const { courses_staff } = courseGetStaff;
+
+  const courseCreate = useSelector((state) => state.courseCreate);
+  const { course_create } = courseCreate;
 
   const columns = [
     { label: "Code", id: "code" },
@@ -44,7 +56,7 @@ function Course() {
     } else if (user.role === "staff") {
       dispatch(getCourseStaff(user._id));
     } else setRows([]);
-  }, [dispatch]);
+  }, [dispatch, course_create]);
 
   useEffect(() => {
     if (courses && user.role === "admin") {
@@ -57,13 +69,30 @@ function Course() {
       });
       setRows(course);
     } else if (courses_staff && user.role === "staff") {
-      setRows(courses_staff);
+      const course = courses_staff.map((course) => {
+        const { instructor, ...rest } = course;
+        return {
+          ...rest,
+          instructor: instructor.name + " " + instructor.surname,
+        };
+      });
+      setRows(course);
     }
   }, [courses, courses_staff]);
   return (
     <>
       <div className="flex flex-row justify-between ">
-        <PageTitle>Course</PageTitle>
+        {isAdmin && <PageTitle>Course Page</PageTitle>}
+        {isStaff ? (
+          user ? (
+            <PageTitle>
+              Courses Given By Staff Member {user.name.toUpperCase()}{" "}
+              {user.surname.toUpperCase()}
+            </PageTitle>
+          ) : (
+            <PageTitle>User data still didn't render.</PageTitle>
+          )
+        ) : null}
         {user.role === "admin" && (
           <Button
             className="my-8 text-l font-semibold"

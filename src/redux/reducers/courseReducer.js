@@ -8,13 +8,13 @@ import {
 export const courseReducer = (state = {}, action) => {
   switch (action.type) {
     case COURSE_CREATE:
-      return { course: action.payload };
+      return { course_create: action.payload };
     case COURSE_GET:
       return { courses: action.payload };
     case COURSE_GET_STAFF:
       return { courses_staff: action.payload };
     case COURSE_UPDATE:
-      return { course: action.payload };
+      return { course_update: action.payload };
     default:
       return state;
   }
