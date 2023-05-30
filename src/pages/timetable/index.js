@@ -69,36 +69,45 @@ function TimeTable() {
       dispatch(getTimeTable(student._id));
       dispatch(getCourse());
     }
+    if (user && user.role === "student") {
+      dispatch(getTimeTable(user._id));
+      dispatch(getCourse());
+    }
   }, [dispatch, timetable_courses]);
 
-  // useEffect(() => {
-  //   if (student) {
-  //     dispatch(getTimeTable(student._id));
-  //     dispatch(getCourse());
-  //   }
-  // }, [timetable_courses]);
-
   useEffect(() => {
-    if (courses) {
-      setRows1(courses);
+    if (student || (user && user.role === "student")) {
+      if (courses) {
+        setRows1(courses);
+      }
+      if (timetable) {
+        setRows2(timetable.schedule);
+        setScheduleData(timetable.schedule);
+      }
     }
-    if (timetable) {
-      setRows2(timetable.schedule);
-      setScheduleData(timetable.schedule);
-    }
-  }, [courses]);
+  }, [courses, timetable]);
 
   const handleAddCourses = (courseId) => {
     const coursesToAdd = [courseId];
     const coursesToRemove = [];
-    const id = student._id;
+    let id = "";
+    if (user && user.role === "student") {
+      id = user._id;
+    } else {
+      id = student._id || "";
+    }
     dispatch(updateTimeTableCourses(id, coursesToAdd, coursesToRemove));
   };
 
   const handleRemoveCourses = (courseId) => {
     const coursesToAdd = [];
     const coursesToRemove = [courseId];
-    const id = student._id;
+    let id = "";
+    if (user && user.role === "student") {
+      id = user._id;
+    } else {
+      id = student._id || "";
+    }
     dispatch(updateTimeTableCourses(id, coursesToAdd, coursesToRemove));
   };
 
