@@ -69,14 +69,14 @@ function TimeTable() {
       dispatch(getTimeTable(student._id));
       dispatch(getCourse());
     }
-  }, [dispatch]);
+  }, [dispatch, timetable_courses]);
 
-  useEffect(() => {
-    if (student) {
-      dispatch(getTimeTable(student._id));
-      dispatch(getCourse());
-    }
-  }, [timetable_courses]);
+  // useEffect(() => {
+  //   if (student) {
+  //     dispatch(getTimeTable(student._id));
+  //     dispatch(getCourse());
+  //   }
+  // }, [timetable_courses]);
 
   useEffect(() => {
     if (courses) {
@@ -86,7 +86,7 @@ function TimeTable() {
       setRows2(timetable.schedule);
       setScheduleData(timetable.schedule);
     }
-  }, [timetable, courses]);
+  }, [courses]);
 
   const handleAddCourses = (courseId) => {
     const coursesToAdd = [courseId];
