@@ -34,13 +34,15 @@ function Login() {
             <img
               aria-hidden="true"
               className="object-cover w-full h-full dark:hidden"
-              src={EmuLightImage}
+              // src={EmuLightImage}
+              src={ImageDark}
               alt="Office"
             />
             <img
               aria-hidden="true"
               className="hidden object-cover w-full h-full dark:block"
-              src={EmuLightImage}
+              // src={EmuLightImage}
+              src={ImageDark}
               alt="Office"
             />
           </div>
