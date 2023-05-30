@@ -11,7 +11,7 @@ export const transcriptReducer = (state = {}, action) => {
     case TRANSCRIPT_GET_TAKEN_COURSES:
       return { courses_taken: action.payload };
     case TRANSCRIPT_CREATE:
-      return { transcript: action.payload };
+      return { transcript_create: action.payload };
     default:
       return state;
   }

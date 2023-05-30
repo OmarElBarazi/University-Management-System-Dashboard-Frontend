@@ -32,8 +32,8 @@ const TranscriptTable = ({ data }) => {
           </TableHeader>
           <TableBody>
             {data &&
-              data.courses.map((entry) => (
-                <TableRow>
+              data.courses.map((entry, index) => (
+                <TableRow key={index}>
                   <TableCell>{entry.course.code}</TableCell>
                   <TableCell>{entry.course.description}</TableCell>
                   <TableCell>{entry.grade}</TableCell>

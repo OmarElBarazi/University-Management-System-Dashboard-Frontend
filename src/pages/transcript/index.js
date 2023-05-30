@@ -34,23 +34,23 @@ function Transcript() {
 
   const student = state?.state.student || null;
 
-  const [transcripts, setTranscripts] = useState([]);
-
   const transcriptGet = useSelector((state) => state.transcriptGet);
   const { transcript } = transcriptGet;
+
+  const transcriptCreate = useSelector((state) => state.transcriptCreate);
+  const { transcript_create } = transcriptCreate;
 
   useEffect(() => {
     if (student) {
       dispatch(getTranscript(student._id));
     }
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (transcript) {
-      setTranscripts(transcript);
-      console.log(transcript);
+    if (student) {
+      dispatch(getTranscript(student._id));
     }
-  }, [transcript]);
+    if (user && user.role === "student") {
+      dispatch(getTranscript(user._id));
+    }
+  }, [dispatch, transcript_create]);
 
   const handleCreateTranscriptFormButton = (student) => {
     const state = { student: student };
@@ -113,7 +113,9 @@ function Transcript() {
         )
       ) : null}
       {transcript &&
-        transcripts.map((entity) => <TranscriptTable data={entity} />)}
+        transcript.map((entity, index) => (
+          <TranscriptTable data={entity} key={index} />
+        ))}
     </>
   );
 }

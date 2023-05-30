@@ -2,7 +2,7 @@ import React from "react";
 
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 
 import { Input, Select, Button, Label } from "@windmill/react-ui";
 
@@ -20,9 +20,11 @@ function TranscriptForm() {
 
   const location = useLocation();
 
-  const state = location.state;
+  let state = location.state;
 
   const student = state?.state.student || null;
+
+  const history = useHistory();
 
   const courseGet = useSelector((state) => state.courseGet);
   const { courses } = courseGet;
@@ -64,6 +66,11 @@ function TranscriptForm() {
       })),
     };
     dispatch(createTranscript(formData));
+
+    // Redirect to the desired route
+
+    state = { student: student };
+    history.push("/app/Transcript", { state: state });
 
     setStudentId("");
     setYear("");
