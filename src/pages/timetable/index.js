@@ -15,6 +15,8 @@ import { getCourse } from "../../redux/actions/courseActions";
 import PageTitle from "../../components/Typography/PageTitle";
 import SectionTitle from "../../components/Typography/SectionTitle";
 
+import { Button } from "@windmill/react-ui";
+
 import Schedule from "./Schedule";
 import GeneralTable from "../GeneralTable";
 
@@ -52,6 +54,7 @@ function TimeTable() {
   const [scheduleData, setScheduleData] = useState([]);
   const [rows1, setRows1] = useState([]);
   const [rows2, setRows2] = useState([]);
+  const [confirmed, setConfirmed] = useState("false");
 
   const timeTableGet = useSelector((state) => state.timeTableGet);
   const { timetable } = timeTableGet;
@@ -60,6 +63,11 @@ function TimeTable() {
     (state) => state.timeTableUpdateCourses
   );
   const { timetable_courses } = timeTableUpdateCourses;
+
+  const timeTableUpdateConfirmation = useSelector(
+    (state) => state.timeTableUpdateConfirmation
+  );
+  const { timetable_confirm } = timeTableUpdateConfirmation;
 
   const courseGet = useSelector((state) => state.courseGet);
   const { courses } = courseGet;
@@ -73,7 +81,7 @@ function TimeTable() {
       dispatch(getTimeTable(user._id));
       dispatch(getCourse());
     }
-  }, [dispatch, timetable_courses]);
+  }, [dispatch, timetable_courses, timetable_confirm]);
 
   useEffect(() => {
     if (student || (user && user.role === "student")) {
@@ -83,9 +91,10 @@ function TimeTable() {
       if (timetable) {
         setRows2(timetable.schedule);
         setScheduleData(timetable.schedule);
+        setConfirmed(timetable.confirm);
       }
     }
-  }, [courses, timetable]);
+  }, [courses, timetable, timetable_courses]);
 
   const handleAddCourses = (courseId) => {
     const coursesToAdd = [courseId];
@@ -111,12 +120,56 @@ function TimeTable() {
     dispatch(updateTimeTableCourses(id, coursesToAdd, coursesToRemove));
   };
 
+  const handleConfirmationUpdate = () => {
+    const confirm = !confirmed;
+    if (student && isStaff && timetable) {
+      const id = timetable._id;
+      dispatch(updateTimeTableConfirmation(id, confirm));
+    }
+  };
+
   return (
     <>
       {isStudent && (
         <PageTitle>TimeTable for {user.name + " " + user.surname}</PageTitle>
       )}
-      {isAdmin || isStaff ? (
+      {isStaff ? (
+        student ? (
+          <div className="flex flex-row justify-between ">
+            <PageTitle>
+              TimeTable for {student.name.toUpperCase()}{" "}
+              {student.surname.toUpperCase()} with ID {student.studentId}
+            </PageTitle>
+            {timetable ? (
+              timetable.confirm === false ? (
+                <Button
+                  className="my-8 text-l font-semibold "
+                  onClick={handleConfirmationUpdate}
+                >
+                  Confirm Courses
+                </Button>
+              ) : (
+                <Button
+                  className="my-8 text-l font-semibold "
+                  onClick={handleConfirmationUpdate}
+                >
+                  Unconfirm Courses
+                </Button>
+              )
+            ) : (
+              <Button className="my-8 text-l font-semibold ">Loading</Button>
+            )}
+          </div>
+        ) : (
+          <div className="mt-6">
+            <SectionTitle>
+              To access the time table of a student, use the student page, click
+              on time table button.
+            </SectionTitle>
+          </div>
+        )
+      ) : null}
+      {isAdmin ? (
         student ? (
           <PageTitle>
             TimeTable for {student.name.toUpperCase()}{" "}
@@ -136,15 +189,17 @@ function TimeTable() {
           <div className="w-full">
             <Schedule data={scheduleData} />
           </div>
-          <div>
-            <GeneralTable
-              columns={columns1}
-              rows={rows1}
-              timeTable1={true}
-              timeTable2={false}
-              handleAddCourseInTimeTable={handleAddCourses}
-            />
-          </div>
+          {confirmed === false && (
+            <div>
+              <GeneralTable
+                columns={columns1}
+                rows={rows1}
+                timeTable1={true}
+                timeTable2={false}
+                handleAddCourseInTimeTable={handleAddCourses}
+              />
+            </div>
+          )}
         </div>
         <div className="mt-6 w-full">
           <PageTitle>Current Semester Courses</PageTitle>

@@ -50,12 +50,14 @@ export const updateTimeTableConfirmation =
         type: TIME_TABLE_UPDATE_CONFIRMATION,
       });
 
-      const res = await axios.patch(`/timetable/confirm/${id}`, { confirm });
+      const res = await axios.patch(`/timetable/confirm/${id}`, {
+        confirm,
+      });
 
       if (res.data) {
         dispatch({
           type: TIME_TABLE_UPDATE_CONFIRMATION,
-          payload: res.data.updatedTimeTable,
+          payload: res.data.updatedTimetable,
         });
       }
     } catch (error) {}
