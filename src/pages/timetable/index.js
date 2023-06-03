@@ -10,6 +10,8 @@ import {
   updateTimeTableConfirmation,
 } from "../../redux/actions/timeTableActions";
 
+import { getTakenCourses } from "../../redux/actions/transcriptActions";
+
 import { getCourse } from "../../redux/actions/courseActions";
 
 import PageTitle from "../../components/Typography/PageTitle";
@@ -45,16 +47,19 @@ function TimeTable() {
   ];
 
   const columns2 = [
-    { label: "Code", id: "code" },
+    { label: "CRS. Code", id: "code" },
     { label: "Description", id: "description" },
-    { label: "Advisor", id: "adviosr" },
+    { label: "Advisor", id: "instructor" },
     { label: "Credits", id: "credits" },
+    { label: "Start Time", id: "start" },
+    { label: "End Time", id: "end" },
   ];
 
   const [scheduleData, setScheduleData] = useState([]);
   const [rows1, setRows1] = useState([]);
   const [rows2, setRows2] = useState([]);
   const [confirmed, setConfirmed] = useState("false");
+  const [filteredCourses, setFilteredCourses] = useState([]);
 
   const timeTableGet = useSelector((state) => state.timeTableGet);
   const { timetable } = timeTableGet;
@@ -69,6 +74,11 @@ function TimeTable() {
   );
   const { timetable_confirm } = timeTableUpdateConfirmation;
 
+  const transcriptGetTakenCourses = useSelector(
+    (state) => state.transcriptGetTakenCourses
+  );
+  const { courses_taken } = transcriptGetTakenCourses;
+
   const courseGet = useSelector((state) => state.courseGet);
   const { courses } = courseGet;
 
@@ -76,20 +86,44 @@ function TimeTable() {
     if (student) {
       dispatch(getTimeTable(student._id));
       dispatch(getCourse());
+      dispatch(getTakenCourses(student._id));
     }
     if (user && user.role === "student") {
       dispatch(getTimeTable(user._id));
       dispatch(getCourse());
+      dispatch(getTakenCourses(user._id));
     }
   }, [dispatch, timetable_courses, timetable_confirm]);
 
   useEffect(() => {
-    if (student || (user && user.role === "student")) {
-      if (courses) {
-        setRows1(courses);
-      }
+    if (
+      (student || (user && user.role === "student")) &&
+      courses &&
+      courses_taken
+    ) {
       if (timetable) {
-        setRows2(timetable.schedule);
+        const currentCourses = timetable.schedule.map((course) => {
+          const { instructor, ...rest } = course;
+          return {
+            ...rest,
+            instructor: instructor.name + " " + instructor.surname,
+          };
+        });
+        const idSetTakenCourses = new Set(courses_taken.map((obj) => obj._id));
+        const idSetCurrentCourses = new Set(
+          currentCourses.map((obj) => obj._id)
+        );
+
+        const filteredTakenFromCourses = courses.filter(
+          (obj) => !idSetTakenCourses.has(obj._id)
+        );
+        const filteredCurrentFromCourses = filteredTakenFromCourses.filter(
+          (obj) => !idSetCurrentCourses.has(obj._id)
+        );
+
+        setFilteredCourses(filteredCurrentFromCourses);
+        setRows1(filteredCurrentFromCourses);
+        setRows2(currentCourses);
         setScheduleData(timetable.schedule);
         setConfirmed(timetable.confirm);
       }
@@ -184,11 +218,9 @@ function TimeTable() {
           </div>
         )
       ) : null}
-      <div className=" w-full">
-        <div className="flex flex-row space-x-4 w-full">
-          <div className="w-full">
-            <Schedule data={scheduleData} />
-          </div>
+      <div>
+        <div className="flex space-x-4">
+          <Schedule data={scheduleData} />
           {confirmed === false && (
             <div>
               <GeneralTable

@@ -28,7 +28,7 @@ export const getTakenCourses = (id) => async (dispatch) => {
       type: TRANSCRIPT_GET_TAKEN_COURSES,
     });
 
-    const res = await axios.get(`/transcript/taken/courses${id}`);
+    const res = await axios.get(`/transcript/taken/courses/${id}`);
 
     if (res.data) {
       dispatch({

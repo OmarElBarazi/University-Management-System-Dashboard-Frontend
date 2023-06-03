@@ -55,7 +55,7 @@ const Schedule = ({ data }) => {
     );
   };
   return (
-    <TableContainer>
+    <TableContainer className="mb-8">
       <Table>
         <TableHeader>
           <TableRow>

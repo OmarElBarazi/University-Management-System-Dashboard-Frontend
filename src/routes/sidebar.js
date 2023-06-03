@@ -28,13 +28,15 @@ const routes = [
     path: "/app/TimeTable",
     icon: "TablesIcon",
     name: "Time Table",
-    roles: ["admin", "staff", "student"],
+    // roles: ["admin", "staff", "student"],
+    roles: ["student"],
   },
   {
     path: "/app/Transcript",
     icon: "ModalsIcon",
     name: "Transcript",
-    roles: ["admin", "staff", "student"],
+    // roles: ["admin", "staff", "student"],
+    roles: ["student"],
   },
   {
     path: "/app/settings",

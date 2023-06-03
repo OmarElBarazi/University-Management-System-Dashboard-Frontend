@@ -29,14 +29,31 @@ function TranscriptForm() {
   const courseGet = useSelector((state) => state.courseGet);
   const { courses } = courseGet;
 
+  const transcriptGetTakenCourses = useSelector(
+    (state) => state.transcriptGetTakenCourses
+  );
+  const { courses_taken } = transcriptGetTakenCourses;
+
   const [studentId, setStudentId] = useState(student._id);
   const [year, setYear] = useState("");
   const [semester, setSemester] = useState("");
   const [courseInputs, setCourseInputs] = useState([{ course: "", grade: "" }]);
+  const [filteredCourses, setFilteredCourses] = useState([]);
 
   useEffect(() => {
     dispatch(getCourse());
+    dispatch(getTakenCourses(student._id));
   }, [dispatch]);
+
+  useEffect(() => {
+    if (courses && courses_taken) {
+      const idSet = new Set(courses_taken.map((obj) => obj._id));
+
+      const newArray = courses.filter((obj) => !idSet.has(obj._id));
+
+      setFilteredCourses(newArray);
+    }
+  }, [courses, courses_taken]);
 
   const handleCourseInputChange = (index, event) => {
     const updatedInputs = [...courseInputs];
@@ -134,8 +151,8 @@ function TranscriptForm() {
                   onChange={(e) => handleCourseInputChange(index, e)}
                 >
                   <option value="">Select Course</option>
-                  {courses &&
-                    courses.map((course) => (
+                  {filteredCourses &&
+                    filteredCourses.map((course) => (
                       <option key={course._id} value={course._id}>
                         {course.code}
                       </option>

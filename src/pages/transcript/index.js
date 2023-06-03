@@ -112,7 +112,8 @@ function Transcript() {
           </div>
         )
       ) : null}
-      {transcript &&
+      {student &&
+        transcript &&
         transcript.map((entity, index) => (
           <TranscriptTable data={entity} key={index} />
         ))}
