@@ -43,7 +43,6 @@ function TimeTable() {
   const columns1 = [
     { label: "Code", id: "code" },
     { label: "Credits", id: "credits" },
-    { label: "Grade", id: "grade" },
   ];
 
   const columns2 = [
@@ -121,14 +120,13 @@ function TimeTable() {
           (obj) => !idSetCurrentCourses.has(obj._id)
         );
 
-        setFilteredCourses(filteredCurrentFromCourses);
         setRows1(filteredCurrentFromCourses);
         setRows2(currentCourses);
         setScheduleData(timetable.schedule);
         setConfirmed(timetable.confirm);
       }
     }
-  }, [courses, timetable, timetable_courses]);
+  }, [courses, timetable, timetable_courses, courses_taken]);
 
   const handleAddCourses = (courseId) => {
     const coursesToAdd = [courseId];

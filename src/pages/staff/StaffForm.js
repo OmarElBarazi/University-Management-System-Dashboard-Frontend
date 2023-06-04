@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { createUser } from "../../redux/actions/userActions";
+import { createUser, updateUser } from "../../redux/actions/userActions";
 
 import { Input, Label, Button, Select } from "@windmill/react-ui";
 

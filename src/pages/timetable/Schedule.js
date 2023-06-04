@@ -29,7 +29,7 @@ const Schedule = ({ data }) => {
   const renderCourseCode = (day, startTime) => {
     const matchingCourses = data.filter(
       (item) =>
-        item.day === day && startTime >= item.start && startTime <= item.end
+        item.day === day && startTime >= item.start && startTime < item.end
     );
 
     if (matchingCourses.length === 0) {

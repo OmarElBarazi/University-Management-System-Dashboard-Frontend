@@ -101,3 +101,20 @@ export const createUser = (data) => async (dispatch) => {
     }
   } catch (error) {}
 };
+
+export const updateUser = (id, data) => async (dispatch) => {
+  try {
+    dispatch({
+      type: USER_UPDATE,
+    });
+
+    const res = await axios.patch(`/user/${id}`, data);
+
+    if (res.data) {
+      dispatch({
+        type: USER_UPDATE,
+        payload: res.data.user,
+      });
+    }
+  } catch (error) {}
+};

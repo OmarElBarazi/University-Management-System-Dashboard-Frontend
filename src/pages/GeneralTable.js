@@ -96,7 +96,7 @@ const GeneralTable = ({
             {isStudentPage && (isAdmin || isStaff) && (
               <TableCell>Actions</TableCell>
             )}
-            {isCoursePage && isAdmin && <TableCell>Actions</TableCell>}
+            {/* {isCoursePage && isAdmin && <TableCell>Actions</TableCell>} */}
             {isTimeTablePage &&
               (isTimeTable1 || isTimeTable2) &&
               (isAdmin || isStaff || isStudent) && (
@@ -121,21 +121,21 @@ const GeneralTable = ({
                     >
                       <EditIcon className="w-5 h-5" aria-hidden="true" />
                     </Button>
-                    <Button
+                    {/* <Button
                       layout="link"
                       size="icon"
                       aria-label="Delete"
                       title="Delete Staff Member"
                     >
                       <TrashIcon className="w-5 h-5" aria-hidden="true" />
-                    </Button>
+                    </Button> */}
                   </div>
                 </TableCell>
               )}
               {isStudentPage && isAdmin && (
                 <TableCell>
                   <div className="flex items-center space-x-4">
-                    <Button
+                    {/* <Button
                       layout="link"
                       size="icon"
                       aria-label="Edit"
@@ -150,7 +150,7 @@ const GeneralTable = ({
                       title="Delete Student Information"
                     >
                       <TrashIcon className="w-5 h-5" aria-hidden="true" />
-                    </Button>
+                    </Button> */}
                     <Button
                       layout="link"
                       size="icon"
@@ -204,7 +204,7 @@ const GeneralTable = ({
                   </div>
                 </TableCell>
               )}
-              {isCoursePage && isAdmin && (
+              {/* {isCoursePage && isAdmin && (
                 <TableCell>
                   <div className="flex items-center space-x-4">
                     <Button
@@ -217,7 +217,7 @@ const GeneralTable = ({
                     </Button>
                   </div>
                 </TableCell>
-              )}
+              )} */}
               {isTimeTablePage &&
                 isTimeTable1 &&
                 (isAdmin || isStaff || isStudent) && (
