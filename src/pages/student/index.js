@@ -34,8 +34,8 @@ function Student() {
   const studentGetByStaff = useSelector((state) => state.studentGetByStaff);
   const { student_staff } = studentGetByStaff;
 
-  const userCreate = useSelector((state) => state.userCreate);
-  const { user_create } = userCreate;
+  const userCreateAccount = useSelector((state) => state.userCreateAccount);
+  const { user_create_account } = userCreateAccount;
 
   //Static columns for the students
   const columns = [
@@ -59,7 +59,7 @@ function Student() {
     } else if (user.role === "staff") {
       dispatch(getStudentByStaff(user._id));
     } else setRows([]);
-  }, [dispatch, user_create]);
+  }, [dispatch, user_create_account]);
 
   useEffect(() => {
     if (student && user.role === "admin") {
@@ -103,7 +103,7 @@ function Student() {
             tag={Link}
             to="/app/Student/Create"
           >
-            Create Student
+            Add Student
           </Button>
         )}
       </div>

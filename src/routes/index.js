@@ -25,7 +25,7 @@ const routes = [
     roles: ["admin"],
   },
   {
-    path: "/Staff/Create",
+    path: "/Staff/Form",
     component: StaffForm,
     roles: ["admin"],
   },

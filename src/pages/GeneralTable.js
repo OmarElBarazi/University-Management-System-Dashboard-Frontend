@@ -84,6 +84,11 @@ const GeneralTable = ({
     history.push("/app/Transcript", { state: state });
   };
 
+  const handleStaffUpdateButton = (staff) => {
+    const state = { staff: staff, updateAccountForm: true };
+    history.push("/app/Staff/Form", { state: state });
+  };
+
   return (
     <TableContainer className="mb-8">
       <Table>
@@ -118,6 +123,9 @@ const GeneralTable = ({
                       size="icon"
                       aria-label="Edit"
                       title="Edit Staff Information"
+                      onClick={() => {
+                        handleStaffUpdateButton(entity);
+                      }}
                     >
                       <EditIcon className="w-5 h-5" aria-hidden="true" />
                     </Button>

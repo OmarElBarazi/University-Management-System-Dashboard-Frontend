@@ -2,6 +2,7 @@ import React from "react";
 
 import { Link } from "react-router-dom";
 
+import { useHistory, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -15,11 +16,16 @@ import { getStaff } from "../../redux/actions/userActions";
 function Staff() {
   const dispatch = useDispatch();
 
+  const history = useHistory();
+
   const staffGet = useSelector((state) => state.staffGet);
   const { staff } = staffGet;
 
-  const userCreate = useSelector((state) => state.userCreate);
-  const { user_create } = userCreate;
+  const userCreateAccount = useSelector((state) => state.userCreateAccount);
+  const { user_create_account } = userCreateAccount;
+
+  const userUpdate = useSelector((state) => state.userUpdate);
+  const { user_update } = userUpdate;
 
   //Static columns for the staff
   const columns = [
@@ -34,23 +40,27 @@ function Staff() {
 
   useEffect(() => {
     dispatch(getStaff());
-  }, [dispatch, user_create]);
+  }, [dispatch, user_create_account, user_update]);
 
   useEffect(() => {
     if (staff) {
       setRows(staff);
     }
   }, [staff]);
+
+  const handleAddStaffButton = () => {
+    const state = { createAccountForm: true };
+    history.push("/app/Staff/Form", { state: state });
+  };
   return (
     <>
       <div className="flex flex-row justify-between ">
         <PageTitle>Staff Page</PageTitle>
         <Button
           className="my-8 text-l font-semibold "
-          tag={Link}
-          to="/app/Staff/Create"
+          onClick={handleAddStaffButton}
         >
-          Create Staff
+          Add Staff
         </Button>
       </div>
       <GeneralTable columns={columns} rows={rows} />

@@ -10,7 +10,7 @@ import { transcriptReducer } from "./transcriptReducer";
 
 export default {
   userLogin: userRegisterationReducer,
-  userCreate: userReducer,
+  userCreateAccount: userReducer,
   userUpdate: userReducer,
   userDelete: userReducer,
   staffGet: staffReducer,

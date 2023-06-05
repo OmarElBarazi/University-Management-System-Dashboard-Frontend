@@ -70,7 +70,7 @@ function Transcript() {
               {student.surname.toUpperCase()} with ID {student.studentId}
             </PageTitle>
             <Button
-              className="my-6  text-l font-semibold"
+              className="my-8  text-l font-semibold"
               onClick={() => {
                 handleCreateTranscriptFormButton(student);
               }}
@@ -95,7 +95,7 @@ function Transcript() {
               {student.surname.toUpperCase()} with ID {student.studentId}
             </PageTitle>
             <Button
-              className="my-6 text-l font-semibold"
+              className="my-8 text-l font-semibold "
               onClick={() => {
                 handleCreateTranscriptFormButton(student);
               }}

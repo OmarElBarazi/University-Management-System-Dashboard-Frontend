@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -15,8 +15,7 @@ function StaffForm() {
 
   const history = useHistory();
 
-  const userCreate = useSelector((state) => state.userCreate);
-  const { user } = userCreate;
+  const location = useLocation();
 
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
@@ -27,6 +26,28 @@ function StaffForm() {
   const [year, setYear] = useState("");
   const [startDate, setStartDate] = useState("");
   const [semester, setSemester] = useState("fall");
+
+  const state = location?.state;
+  const staff = state.state?.staff;
+  const updateAccountForm = state.state?.updateAccountForm;
+  const createAccountForm = state.state?.createAccountForm;
+
+  useEffect(() => {
+    if (updateAccountForm) {
+      const dateString = staff.startDate;
+      const dateParts = dateString.split("/");
+      const formattedDate = `${dateParts[2]}-${dateParts[1].padStart(
+        2,
+        "0"
+      )}-${dateParts[0].padStart(2, "0")}`;
+      setName(staff.name);
+      setSurname(staff.surname);
+      setEmail(staff.email);
+      setStartDate(formattedDate);
+      setYear(staff.year);
+      setSemester(staff.semester);
+    }
+  }, [state]);
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -80,7 +101,24 @@ function StaffForm() {
       semester: semester,
     };
 
-    dispatch(createUser(data));
+    const updatedData = {
+      name: name,
+      surname: surname,
+      email: email,
+      year: year,
+      startDate: `${startDateObj.getDate()}/${
+        startDateObj.getMonth() + 1
+      }/${startDateObj.getFullYear()}`,
+      semester: semester,
+    };
+
+    if (createAccountForm) {
+      dispatch(createUser(data));
+    }
+
+    if (updateAccountForm) {
+      dispatch(updateUser(staff._id, updatedData));
+    }
 
     // Redirect to the desired route
     history.push("/app/Staff");
@@ -97,7 +135,11 @@ function StaffForm() {
 
   return (
     <>
-      <PageTitle>Staff Form</PageTitle>
+      {updateAccountForm ? (
+        <PageTitle>Update Staff Form</PageTitle>
+      ) : (
+        <PageTitle>Staff Account</PageTitle>
+      )}
       <div className="w-full p-4">
         <Label>
           <span>Name</span>
@@ -127,26 +169,31 @@ function StaffForm() {
             onChange={handleEmailChange}
           />
         </Label>
-        <Label className="mt-4">
-          <span>Password</span>
-          <Input
-            className="mt-1"
-            placeholder="***************"
-            type="password"
-            value={password}
-            onChange={handlePasswordChange}
-          />
-        </Label>
-        <Label className="mt-4">
-          <span>Confirm password</span>
-          <Input
-            className="mt-1"
-            placeholder="***************"
-            type="password"
-            value={confirmPassword}
-            onChange={handleConfirmPasswordChange}
-          />
-        </Label>
+        {!updateAccountForm && (
+          <div>
+            {" "}
+            <Label className="mt-4">
+              <span>Password</span>
+              <Input
+                className="mt-1"
+                placeholder="***************"
+                type="password"
+                value={password}
+                onChange={handlePasswordChange}
+              />
+            </Label>
+            <Label className="mt-4">
+              <span>Confirm password</span>
+              <Input
+                className="mt-1"
+                placeholder="***************"
+                type="password"
+                value={confirmPassword}
+                onChange={handleConfirmPasswordChange}
+              />
+            </Label>
+          </div>
+        )}
         <Label>
           <span>Role</span>
           <Input className="mt-1" value={role} onChange={handleRoleChange} />

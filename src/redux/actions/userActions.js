@@ -2,7 +2,7 @@ import axios from "../../core/_axios";
 import {
   USER_LOGIN,
   USER_LOGOUT,
-  USER_CREATE,
+  USER_CREATE_ACCOUNT,
   USER_DELETE,
   USER_UPDATE,
   STAFF_GET,
@@ -88,14 +88,14 @@ export const getStudentByStaff = (id) => async (dispatch) => {
 export const createUser = (data) => async (dispatch) => {
   try {
     dispatch({
-      type: USER_CREATE,
+      type: USER_CREATE_ACCOUNT,
     });
 
     const res = await axios.post("/user/", data);
 
     if (res.data) {
       dispatch({
-        type: USER_CREATE,
+        type: USER_CREATE_ACCOUNT,
         payload: res.data.user,
       });
     }

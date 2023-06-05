@@ -15,8 +15,8 @@ function StudentForm() {
 
   const history = useHistory();
 
-  const userCreate = useSelector((state) => state.userCreate);
-  const { user } = userCreate;
+  const userCreateAccount = useSelector((state) => state.userCreateAccount);
+  const { user } = userCreateAccount;
 
   const staffGet = useSelector((state) => state.staffGet);
   const { staff } = staffGet;

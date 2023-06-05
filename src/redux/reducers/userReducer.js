@@ -1,7 +1,7 @@
 import {
   USER_LOGIN,
   USER_LOGOUT,
-  USER_CREATE,
+  USER_CREATE_ACCOUNT,
   USER_DELETE,
   USER_UPDATE,
   STAFF_GET,
@@ -22,10 +22,10 @@ export const userRegisterationReducer = (state = {}, action) => {
 };
 export const userReducer = (state = {}, action) => {
   switch (action.type) {
-    case USER_CREATE:
-      return { user_create: action.payload };
+    case USER_CREATE_ACCOUNT:
+      return { user_create_account: action.payload };
     case USER_UPDATE:
-      return {};
+      return { user_update: action.payload };
     case USER_DELETE:
       return {};
 
