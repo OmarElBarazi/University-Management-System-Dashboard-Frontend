@@ -224,9 +224,15 @@ function StaffForm() {
             <option value="spring">Spring</option>
           </Select>
         </Label>
-        <Button block className="mt-4" onClick={handleSubmit}>
-          Create account
-        </Button>
+        {updateAccountForm ? (
+          <Button block className="mt-4" onClick={handleSubmit}>
+            Update account
+          </Button>
+        ) : (
+          <Button block className="mt-4" onClick={handleSubmit}>
+            Create account
+          </Button>
+        )}
       </div>
     </>
   );
