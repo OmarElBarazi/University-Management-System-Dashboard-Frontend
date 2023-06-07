@@ -60,7 +60,7 @@ function Transcript() {
   return (
     <>
       {isStudent && (
-        <PageTitle>TimeTable for {user.name + " " + user.surname}</PageTitle>
+        <PageTitle>Transcript for {user.name + " " + user.surname}</PageTitle>
       )}
       {isAdmin ? (
         student ? (
@@ -112,8 +112,7 @@ function Transcript() {
           </div>
         )
       ) : null}
-      {student &&
-        transcript &&
+      {transcript &&
         transcript.map((entity, index) => (
           <TranscriptTable data={entity} key={index} />
         ))}
