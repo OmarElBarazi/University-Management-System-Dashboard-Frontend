@@ -12,6 +12,8 @@ import {
   TableContainer,
   Button,
   Pagination,
+  Label,
+  Input,
 } from "@windmill/react-ui";
 
 import { EditIcon, TrashIcon, TablesIcon, ModalsIcon } from "../icons";
@@ -89,11 +91,33 @@ const GeneralTable = ({
     history.push("/app/Staff/Form", { state: state });
   };
 
+  //Handle Check boxes in Student Page for Staff
+  const [checkedRows, setCheckedRows] = useState([]);
+
+  // Function to handle checkbox change
+  const handleCheckboxChange = (event, row) => {
+    const checked = event.target.checked;
+    if (checked) {
+      setCheckedRows((prevCheckedRows) => [...prevCheckedRows, row]);
+    } else {
+      setCheckedRows((prevCheckedRows) =>
+        prevCheckedRows.filter((checkedRow) => checkedRow._id !== row._id)
+      );
+    }
+  };
+  useEffect(() => {
+    if (isStudentPage && isStaff) {
+      const state = { students: checkedRows };
+      history.push("/app/Student", { state: state });
+    }
+  }, [checkedRows]);
+
   return (
     <TableContainer className="mb-8">
       <Table>
         <TableHeader>
           <TableRow>
+            {isStudentPage && isStaff && <TableCell></TableCell>}
             {columns.map((column) => (
               <TableCell key={column.id}>{column.label}</TableCell>
             ))}
@@ -112,6 +136,16 @@ const GeneralTable = ({
         <TableBody>
           {currentRows.map((entity) => (
             <TableRow key={entity._id}>
+              {isStudentPage && isStaff && (
+                <TableCell>
+                  <Label check>
+                    <Input
+                      type="checkbox"
+                      onChange={(event) => handleCheckboxChange(event, entity)}
+                    />
+                  </Label>
+                </TableCell>
+              )}
               {columns.map((column) => (
                 <TableCell key={column.id}>{entity[column.id]}</TableCell>
               ))}

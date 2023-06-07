@@ -3,12 +3,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { useEffect, useState } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import PageTitle from "../../components/Typography/PageTitle";
 import GeneralTable from "../GeneralTable";
 
-import { Button } from "@windmill/react-ui";
+import { Button, Alert } from "@windmill/react-ui";
 
 import {
   createUser,
@@ -19,9 +20,18 @@ import {
 function Student() {
   const dispatch = useDispatch();
 
+  const history = useHistory();
+
+  const location = useLocation();
+
   const user = localStorage.getItem("userInfo")
     ? JSON.parse(localStorage.getItem("userInfo"))
     : null;
+
+  //Checked students data
+  const state = location.state;
+
+  const students = state?.state.students || null;
 
   // Determine if the user role is admin, staff, or student
   const isAdmin = user && user.role === "admin";
@@ -83,9 +93,23 @@ function Student() {
     }
   }, [student, student_staff]);
 
+  //Handle scheduling meeting button
+  const [showAlert, setShowAlert] = useState(false);
+
+  const handleMeetingSchedulerButton = () => {
+    if (students.length > 0) {
+      const state = { students: students };
+      history.push("/app/Meeting", { state: state });
+    } else {
+      alert(
+        "Please select students to find the available time for scheduling a meeting between them."
+      );
+    }
+  };
+
   return (
     <>
-      <div className="flex flex-row justify-between ">
+      <div className="flex flex-row justify-between items-center">
         {isAdmin && <PageTitle>Student Page</PageTitle>}
         {isStaff ? (
           user ? (
@@ -97,6 +121,16 @@ function Student() {
             <PageTitle>User data still didn't render.</PageTitle>
           )
         ) : null}
+        {isStaff && (
+          <Button
+            className="my-8 text-l font-semibold"
+            onClick={() => {
+              handleMeetingSchedulerButton();
+            }}
+          >
+            Meeting Scheduler
+          </Button>
+        )}
         {isAdmin && (
           <Button
             className="my-8 text-l font-semibold"

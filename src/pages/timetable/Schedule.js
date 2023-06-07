@@ -1,4 +1,7 @@
 import React from "react";
+
+import { useEffect } from "react";
+
 import {
   Table,
   TableBody,
@@ -54,6 +57,10 @@ const Schedule = ({ data }) => {
       </div>
     );
   };
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
   return (
     <TableContainer className="mb-8">
       <Table>
