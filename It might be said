@@ -1,0 +1,74 @@
+// [{day,start,end,etc...}] => Course from each student schdule data come from backend as timetable and in time table we have the
+// filed schedule, schedule contain multiple courses each courses has day, and start and end time
+// [{Monday,8:00,11:00}]
+
+// [{day:Monday, start:8:00, end:9:00},{day:Monday,start:9:00, end:10:00}, etc ...] => 84 objects in this array let's call it timeTableBoxes
+
+// starting from monday until sunday and time is from 8:00 till 20:00 in hour by hour only
+
+// I need a function firstly will take in it an array of ids each id is referncing student I have dispatch(getTimeTable(id))
+// for each student I will get time table  go to schedule we will have array of objects which are courses described above , we will have the 84 objects generated already and start comparison to fiter the 84 objects so ifstudent
+// have time start 8:00  and end 12:00 we remove object from the timeTbaleBoxes from 8:00 and until 12:00 n specific day after looping through all students and looping through all
+// courses in schedule for each student we will return an array which contain the times that are not used by any student where we will have array of objects that have day start end
+
+function getAvailableTimeSlots(studentIds) {
+  const timeTableBoxes = []; // Contains 84 objects representing time slots
+
+  // Generate timeTableBoxes array with all possible time slots
+  const days = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
+  const startTime = "08:00";
+  const endTime = "20:00";
+
+  for (let i = 0; i < 7; i++) {
+    let currentTime = startTime;
+
+    while (currentTime !== endTime) {
+      const timeSlot = {
+        day: days[i],
+        start: currentTime,
+        end: incrementTimeByHour(currentTime),
+      };
+
+      timeTableBoxes.push(timeSlot);
+      currentTime = incrementTimeByHour(currentTime);
+    }
+  }
+
+  // Helper function to increment time by an hour
+  function incrementTimeByHour(time) {
+    const [hours, minutes] = time.split(":").map(Number);
+    const newHours = (hours + 1) % 24;
+    return `${newHours.toString().padStart(2, "0")}:${minutes
+      .toString()
+      .padStart(2, "0")}`;
+  }
+
+  // Filter out time slots based on student schedules
+  const availableTimeSlots = timeTableBoxes.filter((timeSlot) => {
+    for (const studentId of studentIds) {
+      const studentSchedule = getTimeTable(studentId); // Fetch student's schedule
+
+      for (const course of studentSchedule) {
+        if (
+          course.day === timeSlot.day &&
+          course.start <= timeSlot.start &&
+          course.end >= timeSlot.end
+        ) {
+          return false; // Remove time slot if student has a course during this time
+        }
+      }
+    }
+
+    return true; // Keep time slot if no student has a course during this time
+  });
+
+  return availableTimeSlots;
+}

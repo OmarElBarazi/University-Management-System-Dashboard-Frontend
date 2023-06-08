@@ -7,7 +7,9 @@ import { useLocation } from "react-router-dom";
 import { getTimeTable } from "../../redux/actions/timeTableActions";
 
 import PageTitle from "../../components/Typography/PageTitle";
+import SectionTitle from "../../components/Typography/SectionTitle";
 import Schedule from "../timetable/Schedule";
+import GeneralTable from "../GeneralTable";
 
 import { Button } from "@windmill/react-ui";
 
@@ -110,6 +112,18 @@ function Meeting() {
 
     return availableTimeSlots;
   }
+  //Static columns for the students
+  const columns = [
+    { label: "Name", id: "name" },
+    { label: "Surname", id: "surname" },
+    { label: "Student Id", id: "studentId" },
+    { label: "Email", id: "email" },
+    { label: "Role", id: "role" },
+    { label: "Advisor", id: "advisor" },
+    { label: "Start Date", id: "startDate" },
+    { label: "Year", id: "year" },
+    { label: "semester", id: "semester" },
+  ];
 
   return (
     <>
@@ -124,6 +138,11 @@ function Meeting() {
           Generate
         </Button>
       </div>
+      <SectionTitle>Selected Students</SectionTitle>
+      <GeneralTable columns={columns} rows={students}></GeneralTable>
+      <SectionTitle>
+        Available time slots to apply meeting between selected students.
+      </SectionTitle>
       <Schedule data={scheduleData} />
     </>
   );
