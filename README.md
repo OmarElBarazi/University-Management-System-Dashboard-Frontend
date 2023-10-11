@@ -15,7 +15,7 @@ A MERN stack system consisting of basic operations held by any university nowada
 ## Live Demo
 Live demonstration: https://university-management-system.netlify.app/
 
-#Login Information
+## Login Information
 Email: admin@example.com
 Password:admin
 
