@@ -11,7 +11,6 @@ A MERN stack system consisting of basic operations held by any university nowada
 6. Admin and Staff can add or remove courses for the students
 7. each staff is assigned their own students to take over and simplify the system hierarchy
 
-
 ## Live Demo
 Live demonstration: https://university-management-system.netlify.app/
 
