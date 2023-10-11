@@ -2,6 +2,10 @@
 
 A MERN stack system consisting of basic operations held by any university nowadays, the system consist of three main roles which are Admin, Staff (Professors & Advisors), and Student.
 
+## Requirements
+-Node.js v16.0.18
+-npm v6.0 or higher
+
 ## Features
 1. Add Staff to the system including there detailed information
 2. Add Students to the system including their detailed information
@@ -15,8 +19,8 @@ A MERN stack system consisting of basic operations held by any university nowada
 Live demonstration: https://university-management-system.netlify.app/
 
 ## Login Information
-Email: admin@example.com
-Password:admin
+-Email: admin@example.com
+-Password:admin
 
 ## Developer
 This project has been developed by Omar El Bakir El Barazi
